@@ -7,7 +7,72 @@ The output is disseminatied via Figshare and https://cytargetlinker.github.io/pa
 
 ## SPARQL queries
 
+### Get information on the ineteractions
 
+```SPARQL
+PREFIX chembl: <http://rdf.ebi.ac.uk/terms/chembl#>
+PREFIX cheminf: <http://semanticscience.org/resource/>
+
+SELECT distinct ?target ?targetLabel ?molecule ?molLabel ?smiles ?inchi ?assayLabel ?type ?value ?pChembl WHERE {
+
+  ?assay  chembl:hasTarget ?target.
+  
+  ?activity chembl:hasAssay  ?assay.
+  ?activity chembl:hasMolecule ?molecule .
+
+  ?target rdfs:label ?targetLabel.
+  ?molecule rdfs:label ?molLabel.
+  ?molecule cheminf:SIO_000008 [
+    a cheminf:CHEMINF_000018;
+	cheminf:SIO_000300 ?smiles
+  ].
+  ?molecule cheminf:SIO_000008 [
+    a cheminf:CHEMINF_000113;
+	cheminf:SIO_000300 ?inchi
+  ].
+  ?assay  rdfs:label ?assayLabel.
+  
+  ?activity chembl:type ?type.
+  ?activity chembl:standardValue ?value.
+  ?activity chembl:pChembl ?pChembl.
+  FILTER (?pChembl > 6)
+
+} limit 100
+```
+
+### Get info on the compounds
+
+```SPARQL
+PREFIX chembl: <http://rdf.ebi.ac.uk/terms/chembl#>
+PREFIX cheminf: <http://semanticscience.org/resource/>
+PREFIX chembl_mol: <http://rdf.ebi.ac.uk/resource/chembl/molecule/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX schema: <https://schema.org/>
+
+Select ?identifier ?image ?smilesDepict where{
+  
+  ?s a chembl:SmallMolecule.
+  ?s chembl:chemblId ?identifier.
+  ?s foaf:depiction ?image.
+  ?s cheminf:SIO_000008 [ a cheminf:CHEMINF_000018; 
+							cheminf:SIO_000300 ?smilesDepict].
+} LIMIT 100
+```
+
+### Get info on the protein targets
+
+```SPARQL
+SELECT * WHERE {
+  <http://rdf.ebi.ac.uk/resource/chembl/target/CHEMBL1898>
+    <http://rdf.ebi.ac.uk/terms/chembl#hasTargetComponent> ?tc .
+  ?tc <http://www.w3.org/2004/02/skos/core#exactMatch> ?uniprotIRI ;
+      <http://rdf.ebi.ac.uk/terms/chembl#organismName> ?organism ;
+      <http://rdf.ebi.ac.uk/terms/chembl#componentType> ?type .
+  FILTER (STRSTARTS(STR(?uniprotIRI), "http://purl.uniprot.org/uniprot/"))
+}
+```
 
 ## Example XGMML output
 
