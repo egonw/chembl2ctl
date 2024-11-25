@@ -1,9 +1,9 @@
-# chembl2ctl
+# <!--Title-->chembl2ctl<!--/Title-->
 
-Repository with things to create CyTargetLinker files for ChEMBL. The linkset includes protein-target interactions with
-a pChembl value above 6.
+<!--Statement-->Repository with things to create CyTargetLinker files for ChEMBL.<!--/Statement-->
+<!--Description-->The linkset includes protein-target interactions with a pChembl value above 6.
 
-The output is disseminatied via Figshare and https://cytargetlinker.github.io/pages/linksets/chembl
+The output is disseminatied via Figshare and https://cytargetlinker.github.io/pages/linksets/chembl<!--/Description-->
 
 ## SPARQL queries
 
@@ -16,7 +16,7 @@ PREFIX cheminf: <http://semanticscience.org/resource/>
 SELECT distinct ?target ?targetLabel ?molecule ?molLabel ?smiles ?inchi ?assayLabel ?type ?value ?pChembl WHERE {
 
   ?assay  chembl:hasTarget ?target.
-  
+
   ?activity chembl:hasAssay  ?assay.
   ?activity chembl:hasMolecule ?molecule .
 
@@ -31,7 +31,7 @@ SELECT distinct ?target ?targetLabel ?molecule ?molLabel ?smiles ?inchi ?assayLa
 	cheminf:SIO_000300 ?inchi
   ].
   ?assay  rdfs:label ?assayLabel.
-  
+
   ?activity chembl:type ?type.
   ?activity chembl:standardValue ?value.
   ?activity chembl:pChembl ?pChembl.
@@ -52,11 +52,11 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX schema: <https://schema.org/>
 
 Select ?identifier ?image ?smilesDepict where{
-  
+
   ?s a chembl:SmallMolecule.
   ?s chembl:chemblId ?identifier.
   ?s foaf:depiction ?image.
-  ?s cheminf:SIO_000008 [ a cheminf:CHEMINF_000018; 
+  ?s cheminf:SIO_000008 [ a cheminf:CHEMINF_000018;
 							cheminf:SIO_000300 ?smilesDepict].
 } LIMIT 100
 ```
@@ -131,4 +131,3 @@ Two compounds (with a few issues):
       <att label="pChEMBL" name="pChEMBL" value="6.05" type="string"></att>
    </edge>
 ```
-

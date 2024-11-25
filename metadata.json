@@ -1,0 +1,5 @@
+{
+  "Title": "chembl2ctl",
+  "Statement": "Repository with things to create CyTargetLinker files for ChEMBL.",
+  "Description": "The linkset includes protein-target interactions with a pChembl value above 6. The output is disseminatied via Figshare and https://cytargetlinker.github.io/pages/linksets/chembl"
+}
